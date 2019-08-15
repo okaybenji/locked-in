@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
  public class PlayerSound : MonoBehaviour {
+   // Footsteps
    public AudioClip stepLeft1;
    public AudioClip stepLeft2;
    public AudioClip stepRight1;
@@ -13,7 +14,13 @@ using UnityEngine;
    private float nextFootstep = 0;
    private string nextFoot = "left";
 
+   // Door knocking
+   public AudioClip[] knocks;
+   private int knock = 0;
+   private int lastKnock = 0;
+
    void FixedUpdate () {
+     // Footsteps
      if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W)) {
        nextFootstep -= Time.deltaTime;
        if (nextFootstep <= 0) {
@@ -36,9 +43,19 @@ using UnityEngine;
            }
            nextFoot = "left";
          }
-         GetComponent<AudioSource>().PlayOneShot(walkSound, 0.7f);
+         GetComponent<AudioSource>().PlayOneShot(walkSound, 1.0f);
          nextFootstep += footstepDelay;
        }
+     }
+
+     // Door knocking
+     if (Input.GetMouseButtonDown(0)) {
+       // Make sure we don't play the same sound twice in a row.
+       while (knock == lastKnock) {
+         knock = Random.Range(0, 4);
+       }
+       GetComponent<AudioSource>().PlayOneShot(knocks[knock], 1.0f);
+       lastKnock = knock;
      }
    }
  }

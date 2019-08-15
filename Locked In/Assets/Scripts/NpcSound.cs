@@ -27,7 +27,6 @@ public class NpcSound : MonoBehaviour {
   private float saidICantHearYouAt;
   private float saidHuhHuhHuhAt;
   private float explainedSituationAt;
-  private float finishedExplanationAt;
   private float lastKnockAt;
 
   private string currentQuestion = "";
@@ -39,7 +38,9 @@ public class NpcSound : MonoBehaviour {
     audio.PlayOneShot(hello);
     saidHelloAt = Time.time;
 
-    yield return new WaitForSeconds(4);
+    yield return new WaitForSeconds(1);
+    currentQuestion = "hello";
+    yield return new WaitForSeconds(3);
     StartCoroutine(sayICanHearYou());
   }
 
@@ -65,13 +66,13 @@ public class NpcSound : MonoBehaviour {
   }
 
   private IEnumerator sayICantHearYou() {
-    currentQuestion = "canYouHearMe";
-
     if (lastKnockAt <= saidPleaseAt) {
+      currentQuestion = "";
       audio.PlayOneShot(iCantHearYou);
       saidICantHearYouAt = Time.time;
-
-      yield return new WaitForSeconds(13);
+      yield return new WaitForSeconds(5);
+      currentQuestion = "canYouHearMe";
+      yield return new WaitForSeconds(8);
       repeatInstructions();
     }
   }
@@ -86,7 +87,7 @@ public class NpcSound : MonoBehaviour {
     audio.Stop();
 
     explainedSituationAt = Time.time;
-    currentQuestion = "willYouHelp";
+    currentQuestion = "";
     countingKnocks = false;
 
     if (veryFunny) {
@@ -97,9 +98,8 @@ public class NpcSound : MonoBehaviour {
     yield return new WaitForSeconds(3);
     audio.PlayOneShot(iFeelDumb);
     yield return new WaitForSeconds(16);
+    currentQuestion = "willYouHelp";
     audio.PlayOneShot(knockOnceOrTwice);
-    yield return new WaitForSeconds(2);
-    finishedExplanationAt = Time.time;
   }
 
   private IEnumerator firstKey() {
@@ -160,16 +160,11 @@ public class NpcSound : MonoBehaviour {
 
   // Communicate to the NPC that the player has just knocked.
   public void knock() {
-    // We started explaining that we can't hear the player talk...
-    if (saidICantHearYouAt != 0) {
-      // If we said we can't hear the player talking, start counting their knocks.
-      if ((saidICantHearYouAt + 6) < Time.time) {
-        countingKnocks = true;
-      }
-    } else if ((saidHelloAt + 3) < Time.time && explainedSituationAt == 0) {
-        // If we already said hello, the player just knocked, and we haven't yet explained the situation, do that.
-        StartCoroutine(explainSituation());
-    } else if (finishedExplanationAt < Time.time) {
+    // If we asked if they can hear us, start counting their knocks.
+    if (currentQuestion == "hello") {
+      // If we already said hello, the player just knocked, and we haven't yet explained the situation, do that.
+      StartCoroutine(explainSituation());
+    } else if (currentQuestion == "canYouHearMe" || currentQuestion == "willYouHelp") {
       countingKnocks = true;
     }
 
@@ -183,8 +178,7 @@ public class NpcSound : MonoBehaviour {
   void Update() {
     // If we are counting knocks, wait for a delay and the respond.
     if (countingKnocks && (Time.time - lastKnockAt) > 1) {
-      // We don't want to interrupt the explanation of the situation.
-      if (currentQuestion == "willYouHelp" && finishedExplanationAt == 0) {
+      if (currentQuestion == "") {
         knockCount = 0;
         countingKnocks = false;
         return;

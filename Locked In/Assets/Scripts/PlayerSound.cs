@@ -68,6 +68,8 @@ public class PlayerSound : MonoBehaviour {
      npc.GetComponent<NpcSound>().sayHello();
      // Block the player in so they don't wander off.
      invisibleWall.GetComponent<MeshCollider>().enabled = true;
+     // Destroy this collider so it doesn't fire again.
+     Destroy(other);
    }
 
    if (other.tag == "knockZone") {

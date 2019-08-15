@@ -24,10 +24,12 @@ public class NpcSound : MonoBehaviour {
   private float saidPleaseAt;
   private float saidICantHearYouAt;
   private float explainedSituationAt;
+  private float finishedExplanationAt;
   private float lastKnockAt;
 
   public IEnumerator sayHello() {
     audio.PlayOneShot(hello);
+    saidHelloAt = Time.time;
 
     yield return new WaitForSeconds(4);
     StartCoroutine(sayICanHearYou());
@@ -68,13 +70,18 @@ public class NpcSound : MonoBehaviour {
     audio.PlayOneShot(okayGreatLook);
     yield return new WaitForSeconds(2);
     audio.PlayOneShot(iFeelDumb);
+    yield return new WaitForSeconds(16);
+    audio.PlayOneShot(knockOnceOrTwice);
+    yield return new WaitForSeconds(2);
+    finishedExplanationAt = Time.time;
   }
 
   // Communicate to the NPC that the player has just knocked.
   public void knock() {
     lastKnockAt = Time.time;
 
-    if (saidICanHearYouAt < lastKnockAt && explainedSituationAt == 0) {
+    // If we already said hello, the player just knocked, and we haven't yet explained the situation, do that.
+    if ((saidHelloAt + 3) < lastKnockAt && explainedSituationAt == 0) {
       StartCoroutine(explainSituation());
     }
   }

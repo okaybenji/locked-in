@@ -392,6 +392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14887a875493c425581b9d9d863127fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audio: {fileID: 314404581}
   hello: {fileID: 8300000, guid: b5444f743d8244e36b67fd583f397648, type: 3}
   iCanHearYou: {fileID: 8300000, guid: 57f856e6a93314f46bec9dd9160b1e00, type: 3}
   please: {fileID: 8300000, guid: 21f54167641084ffface185c182ae588, type: 3}
@@ -665,6 +666,60 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &528147652
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 528147655}
+  - component: {fileID: 528147654}
+  - component: {fileID: 528147653}
+  m_Layer: 0
+  m_Name: Invisible Wall
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!64 &528147653
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528147652}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!33 &528147654
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528147652}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &528147655
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528147652}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 2.13, y: 5.46, z: -14.26}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!1 &530018078 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2534866581884222612, guid: ee20cb5c6cf4b4e538f415d8f83f0f89,
@@ -4277,6 +4332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npc: {fileID: 314404577}
+  invisibleWall: {fileID: 528147652}
   stepLeft1: {fileID: 8300000, guid: 600218be0227a45fdaaffd02791afd54, type: 3}
   stepLeft2: {fileID: 8300000, guid: 87441b737a2a448d2a0e81609a0fddd1, type: 3}
   stepRight1: {fileID: 8300000, guid: 28b9665963ca34200b1acaaeb92bfa88, type: 3}

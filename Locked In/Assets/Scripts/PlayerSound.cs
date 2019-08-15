@@ -44,7 +44,7 @@ public class PlayerSound : MonoBehaviour {
          }
          nextFoot = "left";
        }
-       GetComponent<AudioSource>().PlayOneShot(walkSound, 1.0f);
+       GetComponent<AudioSource>().PlayOneShot(walkSound);
        nextFootstep += footstepDelay;
      }
    }
@@ -57,7 +57,7 @@ public class PlayerSound : MonoBehaviour {
      while (knock == lastKnock) {
        knock = Random.Range(0, 4);
      }
-     GetComponent<AudioSource>().PlayOneShot(knocks[knock], 1.0f);
+     GetComponent<AudioSource>().PlayOneShot(knocks[knock]);
      npc.GetComponent<NpcSound>().knock();
      lastKnock = knock;
    }
@@ -65,7 +65,7 @@ public class PlayerSound : MonoBehaviour {
 
  void OnTriggerEnter(Collider other) {
    if (other.tag == "start") {
-     npc.GetComponent<NpcSound>().sayHello();
+     StartCoroutine(npc.GetComponent<NpcSound>().sayHello());
      // Block the player in so they don't wander off.
      invisibleWall.GetComponent<MeshCollider>().enabled = true;
      // Destroy this collider so it doesn't fire again.

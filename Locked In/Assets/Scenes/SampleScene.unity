@@ -393,6 +393,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 314404581}
+  knockCounts:
+  - {fileID: 8300000, guid: dc5723f455eab427791abf246729bec1, type: 3}
+  - {fileID: 8300000, guid: df012a8a1b83445fcbee0cbd8e7f8e5c, type: 3}
+  - {fileID: 8300000, guid: 71936fa248d7343278b384969ea6a99f, type: 3}
+  - {fileID: 8300000, guid: 7887e34eb86f0461ba1884105865a391, type: 3}
+  - {fileID: 8300000, guid: 318d8236c83734b46969741ff615395f, type: 3}
+  - {fileID: 8300000, guid: a08f75c8b7ffa4c478bb91e51f3f40c9, type: 3}
+  - {fileID: 8300000, guid: 5de9e6f80ecdf45c7b0b25c30f817443, type: 3}
+  - {fileID: 8300000, guid: 47efe8087189a40d3aef5629e4633d21, type: 3}
+  - {fileID: 8300000, guid: 15c12d1d2e45e487895ca1f11ddb05dc, type: 3}
+  - {fileID: 8300000, guid: 69990e3b494704928ae6e582455e8b23, type: 3}
+  - {fileID: 8300000, guid: 5c9e9c3640b384035ba9a500c8cedd53, type: 3}
+  - {fileID: 8300000, guid: efaf021c52a8a4ed4ba7c48e9288726d, type: 3}
+  aBunch: {fileID: 8300000, guid: 7a39abc3b6b204e758898ef87b48e483, type: 3}
   hello: {fileID: 8300000, guid: b5444f743d8244e36b67fd583f397648, type: 3}
   iCanHearYou: {fileID: 8300000, guid: 57f856e6a93314f46bec9dd9160b1e00, type: 3}
   please: {fileID: 8300000, guid: 21f54167641084ffface185c182ae588, type: 3}

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class NpcSound : MonoBehaviour {
   public AudioSource audio;
+  public AudioClip[] knockCounts;
+  public AudioClip aBunch;
   public AudioClip hello;
   public AudioClip iCanHearYou;
   public AudioClip please;
@@ -26,6 +28,8 @@ public class NpcSound : MonoBehaviour {
   private float explainedSituationAt;
   private float finishedExplanationAt;
   private float lastKnockAt;
+  private int knockCount;
+  private bool countingKnocks = false;
 
   public IEnumerator sayHello() {
     audio.PlayOneShot(hello);
@@ -57,7 +61,7 @@ public class NpcSound : MonoBehaviour {
     }
   }
 
-  public void sayICantHearYou() {
+  private void sayICantHearYou() {
     if (lastKnockAt <= saidPleaseAt) {
       audio.PlayOneShot(iCantHearYou);
       saidICantHearYouAt = Time.time;
@@ -76,13 +80,45 @@ public class NpcSound : MonoBehaviour {
     finishedExplanationAt = Time.time;
   }
 
+  private void respondToKnocks(int knockCount) {
+    audio.Stop();
+
+    if (knockCount == 1) {
+      Debug.Log("player said yes");
+    } else if (knockCount == 2) {
+      Debug.Log("player said no");
+    } else if (knockCount >= 15) {
+      audio.PlayOneShot(aBunch);
+    } else {
+      audio.PlayOneShot(knockCounts[knockCount - 3]);
+    }
+  }
+
   // Communicate to the NPC that the player has just knocked.
   public void knock() {
-    lastKnockAt = Time.time;
-
     // If we already said hello, the player just knocked, and we haven't yet explained the situation, do that.
-    if ((saidHelloAt + 3) < lastKnockAt && explainedSituationAt == 0) {
+    if ((saidHelloAt + 3) < Time.time && explainedSituationAt == 0) {
       StartCoroutine(explainSituation());
+    }
+
+    // If we said we can't hear the player talking, start counting their knocks.
+    if (saidICantHearYouAt > 0 && (saidICantHearYouAt + 2) < Time.time) {
+      countingKnocks = true;
+    }
+
+    if (countingKnocks) {
+      knockCount++;
+    }
+
+    lastKnockAt = Time.time;
+  }
+
+  void Update() {
+    // If we are counting knocks, wait for a delay and the respond.
+    if (countingKnocks && (Time.time - lastKnockAt) > 1) {
+      respondToKnocks(knockCount);
+      knockCount = 0;
+      countingKnocks = false;
     }
   }
 }

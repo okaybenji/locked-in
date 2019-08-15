@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
  public class PlayerSound : MonoBehaviour {
+   // NPC
+   public GameObject npc;
+
    // Footsteps
    public AudioClip stepLeft1;
    public AudioClip stepLeft2;
@@ -63,6 +66,10 @@ using UnityEngine;
    }
 
    void OnTriggerEnter(Collider other) {
+     if (other.tag == "start") {
+       npc.GetComponent<NpcSound>().sayHello();
+     }
+
      if (other.tag == "knockZone") {
        inKnockZone = true;
      }

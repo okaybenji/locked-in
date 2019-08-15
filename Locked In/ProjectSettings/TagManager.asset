@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - knockZone
+  - start
   layers:
   - Default
   - TransparentFX

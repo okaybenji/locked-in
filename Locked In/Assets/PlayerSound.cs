@@ -15,6 +15,7 @@ using UnityEngine;
    private string nextFoot = "left";
 
    // Door knocking
+   public bool inKnockZone = false;
    public AudioClip[] knocks;
    private int knock = 0;
    private int lastKnock = 0;
@@ -47,15 +48,29 @@ using UnityEngine;
          nextFootstep += footstepDelay;
        }
      }
+   }
 
+   void Update() {
      // Door knocking
-     if (Input.GetMouseButtonDown(0)) {
+     if (Input.GetMouseButtonDown(0) && inKnockZone) {
        // Make sure we don't play the same sound twice in a row.
        while (knock == lastKnock) {
          knock = Random.Range(0, 4);
        }
        GetComponent<AudioSource>().PlayOneShot(knocks[knock], 1.0f);
        lastKnock = knock;
+     }
+   }
+
+   void OnTriggerEnter(Collider other) {
+     if (other.tag == "knockZone") {
+       inKnockZone = true;
+     }
+   }
+
+   void OnTriggerExit(Collider other) {
+     if (other.tag == "knockZone") {
+       inKnockZone = false;
      }
    }
  }

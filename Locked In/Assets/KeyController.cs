@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using cakeslice;
 
 public class KeyController : MonoBehaviour {
 
@@ -15,17 +16,17 @@ public class KeyController : MonoBehaviour {
     isSliding = true;
 
     GetComponent<AudioSource>().PlayOneShot(keySlide, 0.5f);
+
+    GetComponentInChildren<Outline>().enabled = true;
+  }
+
+  void Start() {
+    GetComponentInChildren<Outline>().enabled = false;
   }
 
   void Update() {
     if (isSliding) {
-      Debug.Log("forward:" + Vector3.forward);
-      Debug.Log("delta time:" + Time.deltaTime);
-      Debug.Log("slide speed:" + slideSpeed);
-      Debug.Log("moving object by " + Vector3.right * Time.deltaTime * slideSpeed);
       transform.Translate(Vector3.right * Time.deltaTime * slideSpeed);
-      Debug.Log("position " + transform.position.x);
-
       if (transform.position.x > -11.5) {
         transform.position = new Vector3(-11.5f, transform.position.y, transform.position.z);
         isSliding = false;

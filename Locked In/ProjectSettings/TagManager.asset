@@ -6,6 +6,8 @@ TagManager:
   tags:
   - knockZone
   - start
+  - key1
+  - key2
   layers:
   - Default
   - TransparentFX

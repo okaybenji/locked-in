@@ -21,6 +21,8 @@ public class NpcSound : MonoBehaviour {
   public AudioClip howIsThatPossible;
   public AudioClip ahhThanks;
 
+  public AudioClip keySlide;
+
   private float saidHelloAt;
   private float saidICanHearYouAt;
   private float saidPleaseAt;
@@ -102,6 +104,10 @@ public class NpcSound : MonoBehaviour {
     // TODO: Animate and add sound for first key sliding from under door and crab grabbing it and shuffling off.
     currentQuestion = "";
     audio.PlayOneShot(hereComes);
+
+    // TODO: Let's actually have the key play this sound on its own audio source.
+    yield return new WaitForSeconds(2);
+    audio.PlayOneShot(keySlide, 0.5f);
 
     yield return new WaitForSeconds(5);
     audio.PlayOneShot(huhuhuh);

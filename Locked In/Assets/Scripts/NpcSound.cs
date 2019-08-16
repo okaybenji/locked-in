@@ -95,7 +95,7 @@ public class NpcSound : MonoBehaviour {
     yield return new WaitForSeconds(3);
     audio.PlayOneShot(iFeelDumb);
 
-    yield return new WaitForSeconds(1);
+    yield return new WaitForSeconds(16);
     currentQuestion = "willYouHelp";
     audio.PlayOneShot(knockOnceOrTwice);
   }

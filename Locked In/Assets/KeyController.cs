@@ -25,21 +25,26 @@ public class KeyController : MonoBehaviour {
     GetComponentInChildren<Outline>().enabled = false;
   }
 
-  void FixedUpdate() {
-    // Determine if player is looking at me.
-    RaycastHit hit;
-    Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-
-    // If so, add a glow effect. If not, remove it.
-    if (isCollectable && Physics.Raycast(ray, out hit) && hit.collider.gameObject.tag == "key1") {
-      Debug.Log("Enabling!!");
-      GetComponentInChildren<Outline>().enabled = true;
-    } else {
-      GetComponentInChildren<Outline>().enabled = false;
-    }
-  }
-
   void Update() {
+    if (isCollectable) {
+      // Determine if player is looking at me.
+      RaycastHit hit;
+      Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+
+      // If so, add a glow effect. If not, remove it.
+      if (Physics.Raycast(ray, out hit) && hit.collider.gameObject.tag == "key1") {
+        GetComponentInChildren<Outline>().enabled = true;
+
+        // If player clicks me, play the collect sound.
+        if (Input.GetMouseButtonDown(0)) {
+          GetComponent<AudioSource>().PlayOneShot(keyCollect);
+          // TODO: Destroy me and set a flag on the player.
+        }
+       } else {
+        GetComponentInChildren<Outline>().enabled = false;
+      }
+    }
+
     if (isSliding) {
       transform.Translate(Vector3.right * Time.deltaTime * slideSpeed);
       if (transform.position.x > -11.5) {

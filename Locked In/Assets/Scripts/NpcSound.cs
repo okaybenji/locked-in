@@ -109,12 +109,12 @@ public class NpcSound : MonoBehaviour {
     yield return new WaitForSeconds(2);
     key1.GetComponent<KeyController>().slide();
 
-    yield return new WaitForSeconds(5);
+    yield return new WaitForSeconds(10);
     audio.PlayOneShot(huhuhuh);
     saidHuhHuhHuhAt = Time.time;
     currentQuestion = "didYouLoseIt";
 
-    yield return new WaitForSeconds(5);
+    yield return new WaitForSeconds(15);
     if (lastKnockAt < saidHuhHuhHuhAt) {
       audio.PlayOneShot(iSaidDidYouLoseIt);
     }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NpcSound : MonoBehaviour {
+  public GameObject key1;
+  public GameObject key2;
+
   public AudioSource audio;
   public AudioClip[] knockCounts;
   public AudioClip aBunch;
@@ -21,8 +24,6 @@ public class NpcSound : MonoBehaviour {
   public AudioClip howIsThatPossible;
   public AudioClip ahhThanks;
 
-  public AudioClip keySlide;
-
   private float saidHelloAt;
   private float saidICanHearYouAt;
   private float saidPleaseAt;
@@ -33,7 +34,6 @@ public class NpcSound : MonoBehaviour {
   private string currentQuestion = "";
 
   private int knockCount;
-  private bool countingKnocks = false;
 
   public IEnumerator sayHello() {
     audio.PlayOneShot(hello);
@@ -107,7 +107,7 @@ public class NpcSound : MonoBehaviour {
 
     // TODO: Let's actually have the key play this sound on its own audio source.
     yield return new WaitForSeconds(2);
-    audio.PlayOneShot(keySlide, 0.5f);
+    key1.GetComponent<KeyController>().slide();
 
     yield return new WaitForSeconds(5);
     audio.PlayOneShot(huhuhuh);

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NpcSound : MonoBehaviour {
+public class NpcController : MonoBehaviour {
   public GameObject key1;
   public GameObject key2;
 

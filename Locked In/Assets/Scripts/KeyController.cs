@@ -5,6 +5,8 @@ using cakeslice;
 
 public class KeyController : MonoBehaviour {
 
+  public GameObject player;
+
   public AudioClip keySlide;
   public AudioClip keyCollect;
 
@@ -25,6 +27,15 @@ public class KeyController : MonoBehaviour {
     GetComponentInChildren<Outline>().enabled = false;
   }
 
+  // Delays giving key so door doesn't immediately open and key has time to play its SFX.
+  private IEnumerator giveKey() {
+    yield return new WaitForSeconds(0.5f);
+
+    player.GetComponent<PlayerController>().hasKey = true;
+    gameObject.SetActive(false);
+    Destroy(this);
+  }
+
   void Update() {
     if (isCollectable) {
       // Determine if player is looking at me.
@@ -38,7 +49,7 @@ public class KeyController : MonoBehaviour {
         // If player clicks me, play the collect sound.
         if (Input.GetMouseButtonDown(0)) {
           GetComponent<AudioSource>().PlayOneShot(keyCollect);
-          // TODO: Destroy me and set a flag on the player.
+          StartCoroutine(giveKey());
         }
        } else {
         GetComponentInChildren<Outline>().enabled = false;

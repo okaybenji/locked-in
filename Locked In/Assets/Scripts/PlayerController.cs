@@ -3,28 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Player Sound ended up being too specific. This is just the player control code.
-public class PlayerSound : MonoBehaviour {
- public GameObject npc;
- public GameObject invisibleWall;
+public class PlayerController : MonoBehaviour {
+  public GameObject npc;
+  public GameObject invisibleWall;
+  public GameObject door;
 
- // Footsteps
- public AudioClip stepLeft1;
- public AudioClip stepLeft2;
- public AudioClip stepRight1;
- public AudioClip stepRight2;
- public float footstepDelay;
+  public bool hasKey = false;
 
- private AudioClip walkSound;
- private float nextFootstep = 0;
- private string nextFoot = "left";
+  // Footsteps
+  public AudioClip stepLeft1;
+  public AudioClip stepLeft2;
+  public AudioClip stepRight1;
+  public AudioClip stepRight2;
+  public float footstepDelay;
 
- // Door knocking
- public bool inKnockZone = false;
- public AudioClip[] knocks;
- private int knock = 0;
- private int lastKnock = 0;
+  private AudioClip walkSound;
+  private float nextFootstep = 0;
+  private string nextFoot = "left";
 
- void FixedUpdate () {
+  // Door knocking
+  public bool inKnockZone = false;
+  public AudioClip[] knocks;
+  private int knock = 0;
+  private int lastKnock = 0;
+
+  void FixedUpdate () {
    // Footsteps
    if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W)) {
      nextFootstep -= Time.deltaTime;
@@ -48,24 +51,33 @@ public class PlayerSound : MonoBehaviour {
        nextFootstep += footstepDelay;
      }
    }
- }
+  }
 
- void Update() {
-   // Door knocking
+  void Update() {
+   // Door knocking/opening
    if (Input.GetMouseButtonDown(0) && inKnockZone) {
+     if (door.GetComponent<DoorController>().isOpen) {
+       return;
+     }
+
+     if (hasKey) {
+       door.GetComponent<DoorController>().open();
+       return;
+     }
+
      // Make sure we don't play the same sound twice in a row.
      while (knock == lastKnock) {
        knock = Random.Range(0, 4);
      }
      GetComponent<AudioSource>().PlayOneShot(knocks[knock]);
-     npc.GetComponent<NpcSound>().knock();
+     npc.GetComponent<NpcController>().knock();
      lastKnock = knock;
    }
- }
+  }
 
- void OnTriggerEnter(Collider other) {
+  void OnTriggerEnter(Collider other) {
    if (other.tag == "start") {
-     StartCoroutine(npc.GetComponent<NpcSound>().sayHello());
+     StartCoroutine(npc.GetComponent<NpcController>().sayHello());
      // Block the player in so they don't wander off.
      invisibleWall.GetComponent<MeshCollider>().enabled = true;
      // Destroy this collider so it doesn't fire again.
@@ -75,11 +87,11 @@ public class PlayerSound : MonoBehaviour {
    if (other.tag == "knockZone") {
      inKnockZone = true;
    }
- }
+  }
 
- void OnTriggerExit(Collider other) {
+  void OnTriggerExit(Collider other) {
    if (other.tag == "knockZone") {
      inKnockZone = false;
    }
- }
+  }
 }

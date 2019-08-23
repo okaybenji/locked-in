@@ -154,8 +154,10 @@ public class NpcSound : MonoBehaviour {
       }
     } else if (knockCount >= 15) {
       audio.PlayOneShot(aBunch);
+      StartCoroutine(repeatInstructions());
     } else {
       audio.PlayOneShot(knockCounts[knockCount - 3]);
+      StartCoroutine(repeatInstructions());
     }
   }
 

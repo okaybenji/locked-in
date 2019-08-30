@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 // Player Sound ended up being too specific. This is just the player control code.
 public class PlayerController : MonoBehaviour {
-  public GameObject game;
-  public GameObject menu;
+  public GameObject main;
+  public MainController mainController;
   public GameObject npc;
   public GameObject invisibleWall;
   public GameObject door;
@@ -29,10 +29,18 @@ public class PlayerController : MonoBehaviour {
   public AudioClip[] knocks;
   private int knock = 0;
   private int lastKnock = 0;
+  
+  void Start() {
+    mainController = main.GetComponent<MainController>();
+  }
 
   void FixedUpdate () {
-   // Footsteps
-   if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W)) {
+    if (mainController.GameIsPaused) {
+      return;
+    }
+    
+    // Footsteps
+    if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W)) {
      nextFootstep -= Time.deltaTime;
      if (nextFootstep <= 0) {
        if (nextFoot == "left") {
@@ -53,14 +61,12 @@ public class PlayerController : MonoBehaviour {
        GetComponent<AudioSource>().PlayOneShot(walkSound);
        nextFootstep += footstepDelay;
      }
-   }
+    }
   }
 
-  void Update() {
-    // Main menu
-    if (Input.GetKey(KeyCode.Escape) || Input.GetKey(KeyCode.Return)) {
-      menu.SetActive(true);
-      game.SetActive(false);
+  void Update() {    
+    if (main.GetComponent<MainController>().GameIsPaused) {
+      return;
     }
     
     // Door knocking/opening

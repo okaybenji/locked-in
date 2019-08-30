@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // Player Sound ended up being too specific. This is just the player control code.
 public class PlayerController : MonoBehaviour {
+  public GameObject game;
+  public GameObject menu;
   public GameObject npc;
   public GameObject invisibleWall;
   public GameObject door;
@@ -54,8 +57,14 @@ public class PlayerController : MonoBehaviour {
   }
 
   void Update() {
-   // Door knocking/opening
-   if (Input.GetMouseButtonDown(0) && inKnockZone) {
+    // Main menu
+    if (Input.GetKey(KeyCode.Escape) || Input.GetKey(KeyCode.Return)) {
+      menu.SetActive(true);
+      game.SetActive(false);
+    }
+    
+    // Door knocking/opening
+    if (Input.GetMouseButtonDown(0) && inKnockZone) {
      if (door.GetComponent<DoorController>().isOpen) {
        return;
      }
@@ -72,7 +81,7 @@ public class PlayerController : MonoBehaviour {
      GetComponent<AudioSource>().PlayOneShot(knocks[knock]);
      npc.GetComponent<NpcController>().knock();
      lastKnock = knock;
-   }
+    }
   }
 
   void OnTriggerEnter(Collider other) {

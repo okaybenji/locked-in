@@ -84,7 +84,8 @@ public class NpcController : MonoBehaviour {
   }
 
   private IEnumerator explainSituation(bool veryFunny = false) {
-    audio.Stop();
+    StartCoroutine(AudioFadeOut.FadeOut(audio, 0.01f));
+    yield return new WaitForSeconds(0.02f);
 
     explainedSituationAt = Time.time;
     currentQuestion = "";
@@ -127,8 +128,9 @@ public class NpcController : MonoBehaviour {
     // Clicking key should destroy it, play a sound (maybe from bingo?) and allow player to open door by "knocking" again.
   }
 
-  private void respondToKnocks(int knockCount) {
-    audio.Stop();
+  private IEnumerator respondToKnocks(int knockCount) {
+    StartCoroutine(AudioFadeOut.FadeOut(audio, 0.01f));
+    yield return new WaitForSeconds(0.02f);
 
     Debug.Log("respondToKnocks: " + knockCount);
     Debug.Log("current Question: " + currentQuestion);
@@ -180,7 +182,7 @@ public class NpcController : MonoBehaviour {
   void Update() {
     // If we are counting knocks, wait for a delay and the respond.
     if (knockCount > 0 && (Time.time - lastKnockAt) > 1) {
-      respondToKnocks(knockCount);
+      StartCoroutine(respondToKnocks(knockCount));
       knockCount = 0;
     }
   }

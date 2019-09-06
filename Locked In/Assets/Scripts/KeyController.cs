@@ -14,8 +14,10 @@ public class KeyController : MonoBehaviour {
 
   public float slideSpeed = 0.8f;
 
+  public bool collectable = false;  // Whether designer intends this key to ever be collectable.
+
   private bool isSliding = false;
-  private bool isCollectable = false;
+  private bool isCollectable = false; // Whether the key is collectable at this moment.
 
   public void slide() {
     isSliding = true;
@@ -33,6 +35,8 @@ public class KeyController : MonoBehaviour {
 
     player.GetComponent<PlayerController>().hasKey = true;
     gameObject.SetActive(false);
+
+    // TODO: Fade out key before destroying it.
     Destroy(this);
   }
 
@@ -61,7 +65,9 @@ public class KeyController : MonoBehaviour {
       if (transform.position.x > -11.5) {
         transform.position = new Vector3(-11.5f, transform.position.y, transform.position.z);
         isSliding = false;
-        isCollectable = true;
+        if (collectable) {
+          isCollectable = true;
+        }
       }
     }
   }

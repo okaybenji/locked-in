@@ -5,6 +5,7 @@ using UnityEngine;
 public class NpcController : MonoBehaviour {
   public GameObject key1;
   public GameObject key2;
+  public GameObject crab;
 
   public AudioSource audio;
   public AudioClip[] knockCounts;
@@ -102,11 +103,12 @@ public class NpcController : MonoBehaviour {
   }
 
   private IEnumerator firstKey() {
-    // TODO: Animate and add sound for first key sliding from under door and crab grabbing it and shuffling off.
     currentQuestion = "";
     audio.PlayOneShot(hereComes);
 
-    // TODO: Let's actually have the key play this sound on its own audio source.
+    // Start the crab walking to intercept the key.
+    crab.GetComponent<CrabController>().go();
+
     yield return new WaitForSeconds(2);
     key1.GetComponent<KeyController>().slide();
 
@@ -121,11 +123,12 @@ public class NpcController : MonoBehaviour {
     }
   }
 
-  void secondKey() {
+  private IEnumerator secondKey() {
     currentQuestion = "";
     audio.PlayOneShot(howIsThatPossible);
-    // TODO: Animate second key appearing (with sound).
-    // Clicking key should destroy it, play a sound (maybe from bingo?) and allow player to open door by "knocking" again.
+
+    yield return new WaitForSeconds(4);
+    key2.GetComponent<KeyController>().slide();
   }
 
   private IEnumerator respondToKnocks(int knockCount) {
@@ -142,7 +145,7 @@ public class NpcController : MonoBehaviour {
       } else if (currentQuestion == "willYouHelp") {
         StartCoroutine(firstKey());
       } else if (currentQuestion == "didYouLoseIt") {
-        secondKey();
+        StartCoroutine(secondKey());
       }
     } else if (knockCount == 2) {
       if (currentQuestion == "canYouHearMe") {
@@ -152,7 +155,7 @@ public class NpcController : MonoBehaviour {
         audio.PlayOneShot(reallyComeOn);
         StartCoroutine(repeatInstructions());
       } else if (currentQuestion == "didYouLoseIt") {
-        secondKey();
+        StartCoroutine(secondKey());
       }
     } else if (knockCount >= 15) {
       audio.PlayOneShot(aBunch);

@@ -127,7 +127,7 @@ public class NpcController : MonoBehaviour {
     currentQuestion = "";
     audio.PlayOneShot(howIsThatPossible);
 
-    yield return new WaitForSeconds(4);
+    yield return new WaitForSeconds(8);
     key2.GetComponent<KeyController>().slide();
   }
 

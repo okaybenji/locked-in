@@ -6,6 +6,7 @@ using cakeslice;
 public class KeyController : MonoBehaviour {
 
   public GameObject player;
+  public GameObject crab;
 
   public AudioClip keySlide;
   public AudioClip keyCollect;
@@ -15,9 +16,13 @@ public class KeyController : MonoBehaviour {
   public float slideSpeed = 0.8f;
 
   public bool collectable = false;  // Whether designer intends this key to ever be collectable.
+  public bool isAttachedToCrab = false;
 
   private bool isSliding = false;
   private bool isCollectable = false; // Whether the key is collectable at this moment.
+
+  private Vector3 attachStartKey; // Where the key was when it got attached to the crab.
+  private Vector3 attachStartCrab; // Where the crab was when it got the key.
 
   public void slide() {
     isSliding = true;
@@ -61,6 +66,7 @@ public class KeyController : MonoBehaviour {
     }
 
     if (isSliding) {
+      Debug.Log(transform.position);
       transform.Translate(Vector3.right * Time.deltaTime * slideSpeed);
       if (transform.position.x > -11.5) {
         transform.position = new Vector3(-11.5f, transform.position.y, transform.position.z);
@@ -69,6 +75,22 @@ public class KeyController : MonoBehaviour {
           isCollectable = true;
         }
       }
+    } else if (isAttachedToCrab) {
+      // Keep the key attached to the crab.
+      if (attachStartKey.x == 0 && attachStartKey.y == 0 && attachStartKey.z == 0) {
+        attachStartKey = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        attachStartCrab = new Vector3(crab.transform.position.x, crab.transform.position.y, crab.transform.position.z);
+      }
+      var relativeCrabPos = new Vector3(
+        crab.transform.position.x - attachStartCrab.x,
+        crab.transform.position.y - attachStartCrab.y,
+        crab.transform.position.z - attachStartCrab.z
+      );
+      transform.position = new Vector3(
+        attachStartKey.x + relativeCrabPos.x,
+        attachStartKey.y + relativeCrabPos.y,
+        attachStartKey.z + relativeCrabPos.z
+      );
     }
   }
 }

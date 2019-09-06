@@ -8,6 +8,7 @@ TagManager:
   - start
   - key1
   - key2
+  - end
   layers:
   - Default
   - TransparentFX

@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour {
   public AudioClip[] knocks;
   private int knock = 0;
   private int lastKnock = 0;
-  
+
   void Start() {
     mainController = main.GetComponent<MainController>();
   }
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour {
     if (mainController.GameIsPaused) {
       return;
     }
-    
+
     // Footsteps
     if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W)) {
      nextFootstep -= Time.deltaTime;
@@ -64,11 +64,11 @@ public class PlayerController : MonoBehaviour {
     }
   }
 
-  void Update() {    
+  void Update() {
     if (main.GetComponent<MainController>().GameIsPaused) {
       return;
     }
-    
+
     // Door knocking/opening
     if (Input.GetMouseButtonDown(0) && inKnockZone) {
      if (door.GetComponent<DoorController>().isOpen) {
@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviour {
 
      if (hasKey) {
        door.GetComponent<DoorController>().open();
+       StartCoroutine(npc.GetComponent<NpcController>().sayThanks());
        return;
      }
 

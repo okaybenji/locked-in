@@ -61,6 +61,11 @@ public class NpcController : MonoBehaviour {
     }
   }
 
+  public IEnumerator sayThanks() {
+    yield return new WaitForSeconds(2);
+    audio.PlayOneShot(ahhThanks);
+  }
+
   private IEnumerator sayICantHearYou() {
     if (lastKnockAt <= saidPleaseAt) {
       currentQuestion = "";

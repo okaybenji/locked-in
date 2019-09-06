@@ -16,7 +16,7 @@ public class CrabController : MonoBehaviour {
 
   // Attaches the key to the crab.
   private IEnumerator grabKey() {
-    yield return new WaitForSeconds(4);
+    yield return new WaitForSeconds(3);
     key.GetComponent<KeyController>().isAttachedToCrab = true;
   }
 

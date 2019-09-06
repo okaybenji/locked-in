@@ -20,10 +20,10 @@ public class DoorController : MonoBehaviour {
 
   void Update() {
     if (isOpen) {
-      Debug.Log(transform.rotation.y);
       transform.Rotate(Vector3.up * (-openSpeed * Time.deltaTime));
       if (transform.rotation.y < -0.1f) {
         GetComponentInChildren<MeshRenderer>().enabled = false;
+        Destroy(GetComponentInChildren<MeshCollider>());
         Destroy(this);
       }
     }

@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
   public GameObject invisibleWallA;
   public GameObject invisibleWallB;
   public GameObject door;
+  public GameObject stairs;
   public GameObject blackBox; // Mesh which blocks player's view of skybox until end.
   public GameObject lightFrame; // Frame of light around the door.
 
@@ -80,7 +81,6 @@ public class PlayerController : MonoBehaviour {
 
      if (hasKey) {
        door.GetComponent<DoorController>().open();
-       StartCoroutine(npc.GetComponent<NpcController>().sayThanks());
        return;
      }
 
@@ -99,16 +99,21 @@ public class PlayerController : MonoBehaviour {
      StartCoroutine(npc.GetComponent<NpcController>().sayHello());
      // Block the player in so they don't wander off.
      invisibleWallA.GetComponent<MeshCollider>().enabled = true;
-     // Destroy this collider so it doesn't fire again.
-     Destroy(other);
    } else if (other.tag == "knockZone") {
      inKnockZone = true;
    } else if (other.tag == "end") {
      // Block the player in for visual reasons...
      invisibleWallB.GetComponent<MeshCollider>().enabled = true;
+     // Make the NPC say thanks.
+     npc.GetComponent<NpcController>().sayThanks();
      // Resize the black box for visual reasons...
-     blackBox.transform.localScale -= new Vector3(0, 0, 10);
+     blackBox.transform.localScale = new Vector3(4, 4, 4);
+     blackBox.transform.position -= new Vector3(32.26f, 0, 0);
      lightFrame.GetComponentInChildren<MeshRenderer>().enabled = false;
+     // Hide the stairs so you can't see them from in the "closet"
+     stairs.GetComponent<MeshRenderer>().enabled = false;
+     // Destroy this collider so it doesn't fire again.
+     Destroy(other);
    }
   }
 

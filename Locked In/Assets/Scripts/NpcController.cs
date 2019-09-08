@@ -61,8 +61,7 @@ public class NpcController : MonoBehaviour {
     }
   }
 
-  public IEnumerator sayThanks() {
-    yield return new WaitForSeconds(2);
+  public void sayThanks() {
     audio.PlayOneShot(ahhThanks);
   }
 

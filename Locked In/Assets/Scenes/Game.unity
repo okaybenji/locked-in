@@ -13165,7 +13165,7 @@ MonoBehaviour:
   blackBox: {fileID: 714455531}
   lightFrame: {fileID: 1966751670}
   insideClosetLight: {fileID: 834940018}
-  hasKey: 1
+  hasKey: 0
   stepLeft1: {fileID: 8300000, guid: 600218be0227a45fdaaffd02791afd54, type: 3}
   stepLeft2: {fileID: 8300000, guid: 87441b737a2a448d2a0e81609a0fddd1, type: 3}
   stepRight1: {fileID: 8300000, guid: 28b9665963ca34200b1acaaeb92bfa88, type: 3}

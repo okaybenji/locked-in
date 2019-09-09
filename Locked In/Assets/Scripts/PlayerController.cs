@@ -99,6 +99,8 @@ public class PlayerController : MonoBehaviour {
      StartCoroutine(npc.GetComponent<NpcController>().sayHello());
      // Block the player in so they don't wander off.
      invisibleWallA.GetComponent<MeshCollider>().enabled = true;
+     // Destroy this collider so it doesn't fire again.
+     Destroy(other);
    } else if (other.tag == "knockZone") {
      inKnockZone = true;
    } else if (other.tag == "end") {
@@ -109,7 +111,7 @@ public class PlayerController : MonoBehaviour {
      // Resize the black box for visual reasons...
      blackBox.transform.localScale = new Vector3(4, 4, 4);
      blackBox.transform.position -= new Vector3(32.26f, 0, 0);
-     lightFrame.GetComponentInChildren<MeshRenderer>().enabled = false;
+     lightFrame.SetActive(false);
      // Hide the stairs so you can't see them from in the "closet"
      stairs.GetComponent<MeshRenderer>().enabled = false;
      // Destroy this collider so it doesn't fire again.

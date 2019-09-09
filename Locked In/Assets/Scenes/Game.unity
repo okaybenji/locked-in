@@ -12614,7 +12614,7 @@ MonoBehaviour:
   door: {fileID: 201567646}
   stairs: {fileID: 1295794349}
   blackBox: {fileID: 714455531}
-  lightFrame: {fileID: 943156374}
+  lightFrame: {fileID: 1966751670}
   hasKey: 0
   stepLeft1: {fileID: 8300000, guid: 600218be0227a45fdaaffd02791afd54, type: 3}
   stepLeft2: {fileID: 8300000, guid: 87441b737a2a448d2a0e81609a0fddd1, type: 3}

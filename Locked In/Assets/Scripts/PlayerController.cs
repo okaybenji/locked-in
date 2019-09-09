@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour {
   public GameObject stairs;
   public GameObject blackBox; // Mesh which blocks player's view of skybox until end.
   public GameObject lightFrame; // Frame of light around the door.
+  public GameObject insideClosetLight; // To activate when player enters closet.
 
   public bool hasKey = false;
 
@@ -117,6 +118,7 @@ public class PlayerController : MonoBehaviour {
      blackBox.transform.localScale = new Vector3(4, 4, 4);
      blackBox.transform.position -= new Vector3(32.26f, 0, 0);
      lightFrame.SetActive(false);
+     insideClosetLight.SetActive(true);
      // Hide the stairs so you can't see them from in the "closet"
      stairs.GetComponent<MeshRenderer>().enabled = false;
      // Destroy this collider so it doesn't fire again.

@@ -66,6 +66,11 @@ public class PlayerController : MonoBehaviour {
        nextFootstep += footstepDelay;
      }
     }
+
+    // Restart the game if the player falls outside the world bounds
+    if (gameObject.transform.position.y <= -99) {
+      SceneManager.LoadScene(Application.loadedLevel);
+    }
   }
 
   void Update() {

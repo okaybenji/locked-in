@@ -66,7 +66,6 @@ public class KeyController : MonoBehaviour {
     }
 
     if (isSliding) {
-      Debug.Log(transform.position);
       transform.Translate(Vector3.right * Time.deltaTime * slideSpeed);
       if (transform.position.x > -11.5) {
         transform.position = new Vector3(-11.5f, transform.position.y, transform.position.z);

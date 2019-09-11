@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections;
 
 public class LockMouse : MonoBehaviour
-{	
+{
 	void Start()
 	{
 		LockCursor(true);
@@ -17,14 +17,14 @@ public class LockMouse : MonoBehaviour
     	{
     		LockCursor(true);
     	}
-    
+
     	// unlock when escape is hit
         if  ( Input.GetKeyDown(KeyCode.Escape) )
         {
         	LockCursor(!Screen.lockCursor);
         }
     }
-    
+
     public void LockCursor(bool lockCursor)
     {
     	Screen.lockCursor = lockCursor;

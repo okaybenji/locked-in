@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour {
   }
 
   void FixedUpdate () {
-    if (mainController.GameIsPaused) {
+    if (mainController.state != "game") {
       return;
     }
 
@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour {
   }
 
   void Update() {
-    if (main.GetComponent<MainController>().GameIsPaused) {
+    if (mainController.state != "game") {
       return;
     }
 

@@ -37,6 +37,13 @@ public class MainController : MonoBehaviour {
     Screen.lockCursor = false;
   }
 
+  void resetHoverColors(GameObject menu) {
+    var btnLabels = menu.GetComponentsInChildren<TextMeshProUGUI>();
+    foreach (TextMeshProUGUI btnLabel in btnLabels) {
+      btnLabel.color = Color.white;
+    }
+  }
+
   void ActivateMainMenu() {
     state = "mainMenu";
 
@@ -53,6 +60,9 @@ public class MainController : MonoBehaviour {
     // Show the UI canvas
     canvas.GetComponent<Canvas>().enabled = true;
 
+    // Reset button hover colors
+    resetHoverColors(mainMenu);
+
     // Show the main menu
     mainMenu.SetActive(true);
 
@@ -62,6 +72,9 @@ public class MainController : MonoBehaviour {
 
   public void ActivateSettingsMenu() {
     state = "settingsMenu";
+
+    // Reset button hover colors
+    resetHoverColors(settingsMenu);
 
     // Show the settings menu
     settingsMenu.SetActive(true);

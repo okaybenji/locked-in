@@ -150,6 +150,10 @@ public class NpcController : MonoBehaviour {
         StartCoroutine(firstKey());
       } else if (currentQuestion == "didYouLoseIt") {
         StartCoroutine(secondKey());
+      } else if (currentQuestion == "isThisFunny") {
+        currentQuestion = "willYouHelp";
+        audio.PlayOneShot(reallyComeOn);
+        StartCoroutine(repeatInstructions());
       }
     } else if (knockCount == 2) {
       if (currentQuestion == "canYouHearMe") {
@@ -160,10 +164,14 @@ public class NpcController : MonoBehaviour {
         StartCoroutine(repeatInstructions());
       } else if (currentQuestion == "didYouLoseIt") {
         StartCoroutine(secondKey());
+      } else if (currentQuestion == "isThisFunny") {
+        currentQuestion = "willYouHelp";
+        audio.PlayOneShot(please);
+        StartCoroutine(repeatInstructions());
       }
     } else if (knockCount >= 15) {
       audio.PlayOneShot(aBunch);
-      StartCoroutine(repeatInstructions());
+      currentQuestion = "isThisFunny";
     } else {
       audio.PlayOneShot(knockCounts[knockCount - 3]);
       StartCoroutine(repeatInstructions());

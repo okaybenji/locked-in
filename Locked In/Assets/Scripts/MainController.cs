@@ -28,9 +28,13 @@ public class MainController : MonoBehaviour {
   void Start() {
     npcAudio = npc.GetComponent<AudioSource>();
     updateResolutionList();
+
     // Pause the game
     Time.timeScale = 0f;
     npcAudio.Pause();
+
+    // Show the mouse cursor.
+    Screen.lockCursor = false;
   }
 
   void ActivateMainMenu() {

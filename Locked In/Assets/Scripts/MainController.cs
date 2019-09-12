@@ -40,6 +40,9 @@ public class MainController : MonoBehaviour {
     Time.timeScale = 0f;
     npcAudio.Pause();
 
+    // Show the mouse cursor.
+    Screen.lockCursor = false;
+
     // Increase the exposure
     camera.GetComponent<PostProcessingBehaviour>().profile = menuCC;
 
@@ -64,6 +67,9 @@ public class MainController : MonoBehaviour {
 
   void ActivateGame() {
     state = "game";
+
+    // Hide the mouse cursor.
+    Screen.lockCursor = true;
 
     // Hide the main menu
     mainMenu.SetActive(false);

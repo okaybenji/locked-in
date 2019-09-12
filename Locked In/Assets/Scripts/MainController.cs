@@ -12,6 +12,7 @@ public class MainController : MonoBehaviour {
   public GameObject menuBg;
   public GameObject game;
   public GameObject npc;
+  public GameObject subtitles;
   public AudioMixer audioMixer;
   public TextMeshProUGUI playButton;
   public TMP_Dropdown resolutionDropdown;
@@ -158,6 +159,10 @@ public class MainController : MonoBehaviour {
 
   public void SetFullscreen(bool isFullscreen) {
     Screen.fullScreen = isFullscreen;
+  }
+
+  public void SetSubtitles(bool hasSubtitles) {
+    subtitles.SetActive(hasSubtitles);
   }
 
   public void SetResolution(int index) {

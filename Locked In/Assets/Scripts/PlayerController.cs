@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -49,14 +50,14 @@ public class PlayerController : MonoBehaviour {
      nextFootstep -= Time.deltaTime;
      if (nextFootstep <= 0) {
        if (nextFoot == "left") {
-         if (Random.Range(0.0f, 1.0f) > 0.5) {
+         if (UnityEngine.Random.Range(0.0f, 1.0f) > 0.5) {
            walkSound = stepLeft1;
          } else {
            walkSound = stepLeft2;
          }
          nextFoot = "right";
        } else {
-          if (Random.Range(0.0f, 1.0f) > 0.5) {
+          if (UnityEngine.Random.Range(0.0f, 1.0f) > 0.5) {
            walkSound = stepRight1;
          } else {
            walkSound = stepRight2;
@@ -92,12 +93,23 @@ public class PlayerController : MonoBehaviour {
 
      // Make sure we don't play the same sound twice in a row.
      while (knock == lastKnock) {
-       knock = Random.Range(0, 4);
+       knock = UnityEngine.Random.Range(0, 4);
      }
      GetComponent<AudioSource>().PlayOneShot(knocks[knock]);
      npc.GetComponent<NpcController>().knock();
      lastKnock = knock;
     }
+  }
+
+  // Fade to black, then restart the game.
+  private void endGame() {
+	Color fadeColor = Color.black;
+    float fadeDelay = 8f;
+	float fadeTime = 5f;
+    bool isFadeIn = false;
+    Action onFadeFinish = () => SceneManager.LoadScene(Application.loadedLevel);
+
+    CameraFade.StartAlphaFade(fadeColor, isFadeIn, fadeTime, fadeDelay, onFadeFinish);
   }
 
   void OnTriggerEnter(Collider other) {
@@ -123,6 +135,8 @@ public class PlayerController : MonoBehaviour {
      stairs.GetComponent<MeshRenderer>().enabled = false;
      // Destroy this collider so it doesn't fire again.
      Destroy(other);
+     // Fade to black after a few seconds and end the game.
+     endGame();
    }
   }
 

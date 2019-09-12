@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using UnityEngine.PostProcessing;
 using TMPro;
 
 public class MainController : MonoBehaviour {
@@ -14,8 +15,13 @@ public class MainController : MonoBehaviour {
   public AudioMixer audioMixer;
   public TextMeshProUGUI playButton;
   public TMP_Dropdown resolutionDropdown;
+
   Resolution[] resolutions;
   AudioSource npcAudio;
+
+  public Camera camera;
+  public PostProcessingProfile menuCC;
+  public PostProcessingProfile gameCC;
 
   public string state = "mainMenu";
 
@@ -33,6 +39,9 @@ public class MainController : MonoBehaviour {
     // Pause the game
     Time.timeScale = 0f;
     npcAudio.Pause();
+
+    // Increase the exposure
+    camera.GetComponent<PostProcessingBehaviour>().profile = menuCC;
 
     // Show the UI canvas
     canvas.GetComponent<Canvas>().enabled = true;
@@ -61,6 +70,9 @@ public class MainController : MonoBehaviour {
 
     // Hide the UI canvas
     canvas.GetComponent<Canvas>().enabled = false;
+
+    // Decrease the exposure
+    camera.GetComponent<PostProcessingBehaviour>().profile = gameCC;
 
     // Unpause the game
     Time.timeScale = 1.0f;

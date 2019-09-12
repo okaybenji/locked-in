@@ -9,7 +9,7 @@ using TMPro;
 public class MainController : MonoBehaviour {
   public GameObject mainMenu;
   public GameObject settingsMenu;
-  public GameObject canvas;
+  public GameObject menuBg;
   public GameObject game;
   public GameObject npc;
   public AudioMixer audioMixer;
@@ -57,8 +57,8 @@ public class MainController : MonoBehaviour {
     // Increase the exposure
     camera.GetComponent<PostProcessingBehaviour>().profile = menuCC;
 
-    // Show the UI canvas
-    canvas.GetComponent<Canvas>().enabled = true;
+    // Show the menu canvas
+    menuBg.SetActive(true);
 
     // Reset button hover colors
     resetHoverColors(mainMenu);
@@ -91,8 +91,8 @@ public class MainController : MonoBehaviour {
     // Hide the main menu
     mainMenu.SetActive(false);
 
-    // Hide the UI canvas
-    canvas.GetComponent<Canvas>().enabled = false;
+    // Hide the menu canvas
+    menuBg.SetActive(false);
 
     // Decrease the exposure
     camera.GetComponent<PostProcessingBehaviour>().profile = gameCC;

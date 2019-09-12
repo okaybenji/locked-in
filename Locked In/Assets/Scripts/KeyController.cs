@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using cakeslice;
+using TMPro;
 
 public class KeyController : MonoBehaviour {
 
@@ -10,6 +11,8 @@ public class KeyController : MonoBehaviour {
 
   public AudioClip keySlide;
   public AudioClip keyCollect;
+
+  public TextMeshProUGUI subtitles;
 
   public Camera camera;
 
@@ -24,10 +27,14 @@ public class KeyController : MonoBehaviour {
   private Vector3 attachStartKey; // Where the key was when it got attached to the crab.
   private Vector3 attachStartCrab; // Where the crab was when it got the key.
 
-  public void slide() {
+  public IEnumerator slide() {
     isSliding = true;
 
+    subtitles.text = "[Key sliding]";
     GetComponent<AudioSource>().PlayOneShot(keySlide, 0.5f);
+
+    yield return new WaitForSeconds(2f);
+    subtitles.text = "";
   }
 
   void Start() {
@@ -58,6 +65,7 @@ public class KeyController : MonoBehaviour {
         // If player clicks me, play the collect sound.
         if (Input.GetMouseButtonDown(0)) {
           GetComponent<AudioSource>().PlayOneShot(keyCollect);
+          subtitles.text = "[Key collected]";
           StartCoroutine(giveKey());
         }
        } else {

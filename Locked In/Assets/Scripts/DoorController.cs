@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using cakeslice;
+using TMPro;
 
 public class DoorController : MonoBehaviour {
 
@@ -9,20 +10,23 @@ public class DoorController : MonoBehaviour {
   public float openSpeed = 10.0f;
   public AudioClip openDoor;
 
+  public TextMeshProUGUI subtitles;
+
   // Outline effect.
-  public Camera camera;
-  public GameObject player;
+  // public Camera camera;
+  // public GameObject player;
 
   private float openStart;
 
-  void Start() {
-    GetComponentInChildren<Outline>().enabled = false;
-  }
+  // void Start() {
+  //   GetComponentInChildren<Outline>().enabled = false;
+  // }
 
   public void open() {
     isOpen = true;
     openStart = Time.deltaTime;
 
+    subtitles.text = "[Door opening]";
     GetComponent<AudioSource>().PlayOneShot(openDoor);
   }
 
@@ -34,7 +38,7 @@ public class DoorController : MonoBehaviour {
         Destroy(GetComponentInChildren<MeshCollider>());
         Destroy(this);
       }
-    } else if (player.GetComponent<PlayerController>().hasKey) {
+    } /*else if (player.GetComponent<PlayerController>().hasKey) {
       // Show an outline when player looks at door if they have the key.
       // Determine if player is looking at me.
       RaycastHit hit;
@@ -46,6 +50,6 @@ public class DoorController : MonoBehaviour {
        } else {
         GetComponentInChildren<Outline>().enabled = false;
       }
-    }
+    }*/
   }
 }

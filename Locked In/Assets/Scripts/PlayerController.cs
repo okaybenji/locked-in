@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 // Player Sound ended up being too specific. This is just the player control code.
 public class PlayerController : MonoBehaviour {
@@ -18,6 +19,9 @@ public class PlayerController : MonoBehaviour {
   public GameObject insideClosetLight; // To activate when player enters closet.
 
   public bool hasKey = false;
+
+  public TextMeshProUGUI subtitles;
+  bool showedFootstepsCaption = false;
 
   // Footsteps
   public AudioClip stepLeft1;
@@ -70,6 +74,10 @@ public class PlayerController : MonoBehaviour {
          nextFoot = "left";
        }
        GetComponent<AudioSource>().PlayOneShot(walkSound);
+       if (!showedFootstepsCaption) {
+        subtitles.text = "[Footsteps]";
+         showedFootstepsCaption = true;
+       }
        nextFootstep += footstepDelay;
      }
     }
@@ -143,7 +151,7 @@ public class PlayerController : MonoBehaviour {
      // Block the player in for visual reasons...
      invisibleWallB.GetComponent<MeshCollider>().enabled = true;
      // Make the NPC say thanks.
-     npc.GetComponent<NpcController>().sayThanks();
+     StartCoroutine(npc.GetComponent<NpcController>().sayThanks());
      // Resize the black box for visual reasons...
      blackBox.transform.localScale = new Vector3(4, 4, 4);
      blackBox.transform.position -= new Vector3(32.26f, 0, 0);

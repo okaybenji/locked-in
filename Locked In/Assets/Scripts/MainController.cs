@@ -116,7 +116,7 @@ public class MainController : MonoBehaviour {
       options.Add(option);
 
       // Default to screen resolution.
-      if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height) {
+      if (resolutions[i].width <= Screen.currentResolution.width && resolutions[i].height <= Screen.currentResolution.height) {
         currentResolutionIndex = i;
       }
     }

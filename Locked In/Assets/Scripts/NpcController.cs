@@ -119,6 +119,7 @@ public class NpcController : MonoBehaviour {
     yield return new WaitForSeconds(10);
     audio.PlayOneShot(huhuhuh);
     saidHuhHuhHuhAt = Time.time;
+    yield return new WaitForSeconds(2);
     currentQuestion = "didYouLoseIt";
 
     yield return new WaitForSeconds(15);

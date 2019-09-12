@@ -36,8 +36,13 @@ public class PlayerController : MonoBehaviour {
   private int knock = 0;
   private int lastKnock = 0;
 
+  // Control state for ending
+  private float startingY;
+  private bool gameIsEnding;
+
   void Start() {
     mainController = main.GetComponent<MainController>();
+    startingY = transform.position.y;
   }
 
   void FixedUpdate () {
@@ -69,9 +74,9 @@ public class PlayerController : MonoBehaviour {
      }
     }
 
-    // Restart the game if the player falls outside the world bounds
-    if (gameObject.transform.position.y <= -99) {
-      SceneManager.LoadScene(Application.loadedLevel);
+    // Restart the game if the player falls off the world.
+    if (transform.position.y < startingY) {
+      endGame();
     }
   }
 
@@ -101,15 +106,28 @@ public class PlayerController : MonoBehaviour {
     }
   }
 
+  // Wait a few seconds, them fade out and end the game.
+  // Doing it this way so I can set the gameIsEnding flag *after* the delay.
+  private IEnumerator endGameAfterDelay() {
+    yield return new WaitForSeconds(8);
+    endGame();
+  }
+
   // Fade to black, then restart the game.
   private void endGame() {
+    if (gameIsEnding) {
+      return;
+    }
+
 	Color fadeColor = Color.black;
-    float fadeDelay = 8f;
-	float fadeTime = 5f;
     bool isFadeIn = false;
+    float fadeTime = 5f;
+    float fadeDelay = 0;
     Action onFadeFinish = () => SceneManager.LoadScene(Application.loadedLevel);
 
     CameraFade.StartAlphaFade(fadeColor, isFadeIn, fadeTime, fadeDelay, onFadeFinish);
+
+    gameIsEnding = true;
   }
 
   void OnTriggerEnter(Collider other) {
@@ -136,7 +154,7 @@ public class PlayerController : MonoBehaviour {
      // Destroy this collider so it doesn't fire again.
      Destroy(other);
      // Fade to black after a few seconds and end the game.
-     endGame();
+     StartCoroutine(endGameAfterDelay());
    }
   }
 

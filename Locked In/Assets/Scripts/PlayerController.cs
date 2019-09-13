@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour {
      }
 
      if (hasKey) {
-       door.GetComponent<DoorController>().open();
+       StartCoroutine(door.GetComponent<DoorController>().open());
        return;
      }
 

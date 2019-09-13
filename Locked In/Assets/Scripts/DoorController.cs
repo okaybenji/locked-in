@@ -22,12 +22,18 @@ public class DoorController : MonoBehaviour {
   //   GetComponentInChildren<Outline>().enabled = false;
   // }
 
-  public void open() {
+  public IEnumerator open() {
     isOpen = true;
     openStart = Time.deltaTime;
 
-    subtitles.text = "[Door opening]";
     GetComponent<AudioSource>().PlayOneShot(openDoor);
+    
+    subtitles.text = "[Door opening]";
+    yield return new WaitForSeconds(3);
+    
+    if (subtitles.text == "[Door opening]") {
+      subtitles.text = "";
+    }
   }
 
   void Update() {

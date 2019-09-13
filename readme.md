@@ -16,7 +16,7 @@
 ##### (WARNING: SPOILERS AHEAD)
 
 #### Skyboxes
-* [3 Skyboxes 2](https://assetstore.unity.com/packages/vfx/shaders/fullscreen-camera-effects/outline-effect-78608) by Bright Shining Star
+* [3 Skyboxes 2](https://assetstore.unity.com/packages/2d/textures-materials/sky/3-skyboxes-2-25582) by Bright Shining Star
 
 #### Models
 * [Humpback Whale](https://assetstore.unity.com/packages/3d/characters/animals/humpback-whale-3547) by Janpec

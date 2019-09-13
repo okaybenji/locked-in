@@ -67,6 +67,8 @@ public class KeyController : MonoBehaviour {
           GetComponent<AudioSource>().PlayOneShot(keyCollect);
           subtitles.text = "[Key collected]";
           StartCoroutine(giveKey());
+          // Make sure they can't collect the key twice.
+          isCollectable = false;
         }
        } else {
         GetComponentInChildren<Outline>().enabled = false;

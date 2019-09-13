@@ -169,6 +169,11 @@ public class NpcController : MonoBehaviour {
   }
 
   private IEnumerator respondToKnocks(int knockCount) {
+    if (currentQuestion == "") {
+      knockCount = 0;
+      yield break;
+    }
+    
     StartCoroutine(AudioFadeOut.FadeOut(audio, 0.01f));
     yield return new WaitForSeconds(0.02f);
 
@@ -206,12 +211,20 @@ public class NpcController : MonoBehaviour {
         StartCoroutine(repeatInstructions());
       }
     } else if (knockCount >= 15) {
+      currentQuestion = "";
       audio.PlayOneShot(aBunch);
       subtitles.text = "Okay, you just knocked, like, a bunch of times. Is this funny to you?";
+      yield return new WaitForSeconds(4);
       currentQuestion = "isThisFunny";
     } else {
+      // Make sure player has a chance to hear at least some of the response before
+      // responding to their next knocks (in case they accidentally interrupt)
+      string lastQuestion = currentQuestion;
+      currentQuestion = "";
       audio.PlayOneShot(knockCounts[knockCount - 3]);
       subtitles.text = knockCountsSub[knockCount - 3];
+      yield return new WaitForSeconds(3);
+      currentQuestion = lastQuestion;
       StartCoroutine(repeatInstructions());
     }
   }

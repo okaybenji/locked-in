@@ -5,6 +5,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+public static class WaitFor {
+  public static IEnumerator Frames(int frameCount) {
+    while (frameCount > 0) {
+        frameCount--;
+        yield return null;
+    }
+  }
+}
+
 // Player Sound ended up being too specific. This is just the player control code.
 public class PlayerController : MonoBehaviour {
   public GameObject main;
@@ -30,6 +39,12 @@ public class PlayerController : MonoBehaviour {
   public AudioClip stepRight2;
   public float footstepDelay;
 
+  // Teleporting
+  public AudioClip[] teleportSfx;
+  private FirstPersonDrifter drifter;
+  private MouseLook mouseLook;
+  private Camera cam;
+
   private AudioClip walkSound;
   private float nextFootstep = 0;
   private string nextFoot = "left";
@@ -41,12 +56,15 @@ public class PlayerController : MonoBehaviour {
   private int lastKnock = 0;
 
   // Control state for ending
-  private float startingY;
+  private Vector3 startPos;
   private bool gameIsEnding;
 
   void Start() {
     mainController = main.GetComponent<MainController>();
-    startingY = transform.position.y;
+    startPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+    drifter = GetComponent<FirstPersonDrifter>();
+    mouseLook = GetComponent<MouseLook>();
+    cam = GameObject.Find("Main Camera").GetComponent<Camera>();
   }
 
   void FixedUpdate () {
@@ -83,7 +101,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     // Restart the game if the player falls off the world.
-    if (transform.position.y < startingY) {
+    if (transform.position.y < startPos.y) {
       endGame();
     }
   }
@@ -112,6 +130,18 @@ public class PlayerController : MonoBehaviour {
      npc.GetComponent<NpcController>().knock();
      lastKnock = knock;
     }
+  }
+
+  public IEnumerator RestoreMovement() {
+    yield return StartCoroutine(WaitFor.Frames(1));
+
+    // Re-enable movement if it's disabled from teleporting.
+     drifter.enabled = true;
+     mouseLook.enabled = true;
+
+    // Re-enable the camera.
+     yield return StartCoroutine(WaitFor.Frames(4));
+     cam.enabled = true;
   }
 
   // Wait a few seconds, them fade out and end the game.
@@ -147,6 +177,19 @@ public class PlayerController : MonoBehaviour {
      Destroy(other);
    } else if (other.tag == "knockZone") {
      inKnockZone = true;
+   } else if (other.tag == "teleporter") {
+     // Block movement controllers from overriding position/rotation.
+     drifter.enabled = false;
+     mouseLook.enabled = false;
+     cam.enabled = false;
+     mouseLook.rotationX = 0;
+     mouseLook.rotationY = -90;
+     mouseLook.rotAverageX = 0;
+     mouseLook.rotAverageY = -90;
+     int teleportSoundIndex = UnityEngine.Random.Range(0, 3);
+     GetComponent<AudioSource>().PlayOneShot(teleportSfx[teleportSoundIndex]);
+     transform.position = new Vector3(startPos.x, startPos.y, startPos.z);
+     StartCoroutine(RestoreMovement());
    } else if (other.tag == "end") {
      // Block the player in for visual reasons...
      invisibleWallB.GetComponent<MeshCollider>().enabled = true;
